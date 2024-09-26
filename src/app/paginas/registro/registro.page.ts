@@ -17,6 +17,7 @@ export class RegistroPage implements OnInit {
       'nombre': new FormControl('',Validators.required),
       'password': new FormControl('',Validators.required),
       'confirmPassword': new FormControl('',Validators.required),
+      'rut': new FormControl('',Validators.required),
     })
 
   }
@@ -35,7 +36,8 @@ export class RegistroPage implements OnInit {
       }else{
         var usuario={
           nombre: f.nombre,
-          password: f.password
+          password: f.password,
+          rut: f.rut,
         }
         this.route.navigate(['./login']);
       }
