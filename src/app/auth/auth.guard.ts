@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import {AlertController,} from '@ionic/angular';
 @Injectable({
      providedIn: 'root',
 })
 
 export class AuthGuard{
-  constructor(private storage:Storage, private route:Router){
+  constructor(private storage:Storage, private route:Router, private alertController:AlertController){
     this.init();
 
   }
@@ -17,7 +18,14 @@ export class AuthGuard{
     const isLogged = await this.storage.get('ingresado');
 
     if(isLogged){
-      return this.route.createUrlTree(['/login']);
+      const alert = await this.alertController.create({
+        header: 'Alerta',
+        message: '¡Ya tienes una sesion iniciada!',
+        buttons: ['OK'],
+        
+      });
+      await alert.present();
+      return this.route.createUrlTree(['/login'])
      
     }
     else{
