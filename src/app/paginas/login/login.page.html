@@ -1,0 +1,30 @@
+<ion-app>
+<ion-header [translucent]="true">
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+    <img id="img" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
+    <ion-button color="warning" id="button" (click)="ingresar()">
+      <img id="user"[src]='imageURL' alt="usuario">
+  </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+
+  <img id="mapa" src="../../assets/icon/mapa.png" alt="caja_vecina_logo">
+
+ 
+
+  <ion-footer>
+    <ion-toolbar color="warning">
+      <ion-buttons slot="end">
+        <ion-button (click)="cerrarSesion()">
+          {{cerrar}}
+      </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+ </ion-footer>
+
+</ion-app>
