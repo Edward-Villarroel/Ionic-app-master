@@ -1,5 +1,7 @@
 {
   "name": "ionic-app-master",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
