@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,FormGroup,Validator,FormControl, Validators } from '@angular/forms';
+import { FormBuilder,FormGroup,Validator,FormControl, Validators,ReactiveFormsModule } from '@angular/forms';
 import { AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
@@ -38,6 +38,7 @@ export class RegistroPage implements OnInit {
           nombre: f.nombre,
           password: f.password,
           rut: f.rut,
+          role:'persona',
         }
         this.route.navigate(['./login']);
       }

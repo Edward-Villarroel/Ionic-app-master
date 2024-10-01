@@ -27,8 +27,11 @@ export class LoginPage implements OnInit {
     async updateImage(){
       const storage= await this.storage.create();
       const ingresado=await this.storage.get('ingresado');
-      if (ingresado==true){
-        this.imageURL='assets/icon/logo_duoc.png';
+      const usuario= await this.storage.get('usuario');
+      if (ingresado==true && usuario.role=='empresa'){
+        this.imageURL='assets/icon/logo_duoc.png'
+      }else if (ingresado==true && usuario.role=='persona'){
+        this.imageURL='assets/icon/mclovin.jpg'
       }else{
         this.imageURL='assets/icon/usuario.png'
       }

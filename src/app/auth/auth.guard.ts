@@ -21,7 +21,16 @@ export class AuthGuard{
       const alert = await this.alertController.create({
         header: 'Alerta',
         message: '¡Ya tienes una sesion iniciada!',
-        buttons: ['OK'],
+        buttons: [{
+          text:'ok',
+          role:'ok',
+        },{
+         text:'cerrar sesion',
+         role:'cerrar_sesion',
+         handler: () =>{
+          this.storage.set('ingresado',false)
+         }
+        }],
         
       });
       await alert.present();
