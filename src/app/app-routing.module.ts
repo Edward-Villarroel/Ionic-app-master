@@ -28,7 +28,7 @@ const routes: Routes = [
   {
     path: 'registro',
     loadChildren: () => import('./paginas/registro/registro.module').then( m => m.RegistroPageModule),
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
   },
   {
     path: 'registro-auth',
@@ -38,7 +38,11 @@ const routes: Routes = [
   {
     path: 'registro-tienda',
     loadChildren: () => import('./paginas/registro-tienda/registro-tienda.module').then( m => m.RegistroTiendaPageModule),
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard],
+  },
+  {
+    path: 'photo',
+    loadChildren: () => import('./paginas/photo/photo.module').then( m => m.PhotoPageModule)
   },
 
 
