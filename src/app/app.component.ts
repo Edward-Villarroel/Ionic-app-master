@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 @Component({
   selector: 'app-root',

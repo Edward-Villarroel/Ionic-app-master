@@ -13,6 +13,7 @@ import { Storage } from '@ionic/storage-angular';
 export class HomePage implements OnInit{
    usuario:string=""
    contrasena:string=""
+   rut:string=""
    formularioLogin:FormGroup;
   constructor(public mensaje:ToastController, 
               private route:Router, 

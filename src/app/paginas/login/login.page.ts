@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angula
 import {Router} from '@angular/router';
 import { ToastController ,AlertController} from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { PhotoService } from 'src/app/services/photo.service';
 
 
 
@@ -18,7 +19,8 @@ export class LoginPage implements OnInit {
    usuario:string="";
    contrasena:string="";
    cerrar:string="";
-  constructor( public mensaje:ToastController, private route:Router, public alerta:AlertController, private storage: Storage) {
+   photo:PhotoService=new PhotoService;
+  constructor( public mensaje:ToastController, private route:Router, public alerta:AlertController, private storage: Storage, public photoService: PhotoService) {
     this.updateImage();
     this.msg();
     
@@ -27,8 +29,11 @@ export class LoginPage implements OnInit {
     async updateImage(){
       const storage= await this.storage.create();
       const ingresado=await this.storage.get('ingresado');
-      if (ingresado==true){
-        this.imageURL='assets/icon/logo_duoc.png';
+      const usuario= await this.storage.get('usuario');
+      if (ingresado==true && usuario.role=='empresa'){
+        this.imageURL=usuario.foto
+      }else if (ingresado==true && usuario.role=='persona'){
+        this.imageURL=usuario.foto
       }else{
         this.imageURL='assets/icon/usuario.png'
       }
@@ -76,6 +81,7 @@ export class LoginPage implements OnInit {
     const storage= await this.storage.create();
     const usuario=await this.storage.get('usuario');
     const ingresado=await this.storage.get('ingresado');
+    await this.photoService.loadSaved();
   }
   
 }

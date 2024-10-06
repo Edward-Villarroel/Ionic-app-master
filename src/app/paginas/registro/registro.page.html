@@ -30,6 +30,12 @@
       <ion-input formControlName ="confirmPassword" ngModel minlength="4" type="password"></ion-input>
       
      </ion-item>
+     <ion-item>
+
+      <ion-label position="floating">rut</ion-label>
+      <ion-input formControlName ="rut" type="number"></ion-input>
+      
+     </ion-item>
    </form>
      
    
@@ -41,4 +47,15 @@
   </ion-button>
   
  </ion-content>
+ <ion-footer>
+  <ion-toolbar>
+    <h1>agrega una foto (opcional)</h1>
+    <ion-fab vertical="bottom" horizontal="center">
+      <ion-fab-button (click)="addPhotoToGallery()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-toolbar>
+ </ion-footer>
+
 </ion-app>

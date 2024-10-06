@@ -1,9 +1,10 @@
 import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,FormGroup,Validator,FormControl, Validators } from '@angular/forms';
+import { FormBuilder,FormGroup,Validator,FormControl, Validators,ReactiveFormsModule } from '@angular/forms';
 import { AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-registro',
@@ -12,11 +13,14 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class RegistroPage implements OnInit {
   formularioRegistro:FormGroup;
-  constructor(public fb:FormBuilder, public alertController: AlertController, public route:Router, private storage:Storage) { 
+  foto: PhotoService = new PhotoService;
+
+  constructor(public fb:FormBuilder, public alertController: AlertController, public route:Router, private storage:Storage, public photoService: PhotoService) { 
     this.formularioRegistro=this.fb.group({
       'nombre': new FormControl('',Validators.required),
       'password': new FormControl('',Validators.required),
       'confirmPassword': new FormControl('',Validators.required),
+      'rut': new FormControl('',Validators.required),
     })
 
   }
@@ -35,12 +39,19 @@ export class RegistroPage implements OnInit {
       }else{
         var usuario={
           nombre: f.nombre,
-          password: f.password
+          password: f.password,
+          rut: f.rut,
+          role:'persona',
+          foto:this.foto.loadSaved()
         }
         this.route.navigate(['./login']);
       }
 
      await this.storage.set('usuario',usuario);
+    }
+    addPhotoToGallery() {
+      this.photoService.addNewToGallery();
+  
     }
   async ngOnInit() {
     const storage=await this.storage.create()
