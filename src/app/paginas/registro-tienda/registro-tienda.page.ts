@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,Validator,FormControl, Validators,ReactiveFormsModule} from '@angular/forms';
 import { AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { PhotoService } from 'src/app/services/photo.service';
+
 
 @Component({
   selector: 'app-registro-tienda',
@@ -11,7 +13,10 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class RegistroTiendaPage implements OnInit {
   formularioRegistro:FormGroup;
-  constructor(public fb:FormBuilder, public alertController: AlertController, public route:Router, private storage:Storage) {
+  photo: PhotoService['photos'] = [];
+
+
+  constructor(public fb:FormBuilder, public alertController: AlertController, public route:Router, private storage:Storage,public photoService: PhotoService) {
     this.formularioRegistro=this.fb.group({
       'nombre': new FormControl('',Validators.required),
       'password': new FormControl('',Validators.required),
@@ -19,6 +24,10 @@ export class RegistroTiendaPage implements OnInit {
       'rut_empresa': new FormControl('',Validators.required),
     })
    }
+  addPhotoToGallery() {
+    this.photoService.addNewToGallery();
+
+  }
 
   async registrarse(){
     var f = this.formularioRegistro.value;
@@ -38,6 +47,7 @@ export class RegistroTiendaPage implements OnInit {
         password: f.password,
         rut: f.rut_empresa,
         role:'empresa',
+        foto:this.photo
       }
       this.route.navigate(['./login']);
     }
@@ -48,6 +58,7 @@ async ngOnInit() {
   const storage=await this.storage.create()
   const usuario=await this.storage.get('usuario');
   const ingresado=await this.storage.get('ingresado');
+  await this.photoService.loadSaved();
 }
 
 
