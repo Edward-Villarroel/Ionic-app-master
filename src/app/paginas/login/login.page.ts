@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
     }
     async mensajeExito(){
         const toast= await this.mensaje.create({
-          message:'inicio de sesion exitoso',
+          message:'inicio de sesión exitoso',
           duration:2000
         });
         toast.present();
@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
       const storage= await this.storage.create();
       const ingresado=await this.storage.get('ingresado');
       if (ingresado==true){
-        this.cerrar='cerrar sesion';
+        this.cerrar='cerrar sesión';
       }else {
         this.cerrar='';
       }

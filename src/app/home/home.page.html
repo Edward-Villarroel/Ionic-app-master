@@ -8,16 +8,16 @@
 
    <ion-content>
     <img id="user" src="../../assets/icon/usuario.png" alt="usuario">
-    <p id="parrafos">Inicia Sesion</p>
+    <p id="parrafos">Inicia Sesión</p>
     
    <form [formGroup]="formularioLogin">
      <ion-item>
-      <ion-label position="floating">nombre</ion-label>
+      <ion-label position="floating">Nombre</ion-label>
       <ion-input formControlName ="nombre" min="3" max="15"></ion-input>
       
      </ion-item>
      <ion-item>
-      <ion-label position="floating">contrasena</ion-label>
+      <ion-label position="floating">Contraseña</ion-label>
       <ion-input formControlName ="password" min="3" type="password" max="10"></ion-input>
       
      </ion-item>
@@ -37,7 +37,7 @@
     <ion-toolbar color="warning">
       <ion-buttons slot="end">
         <ion-button [routerLink]="['../registro-auth']">
-          ¿No tienes cuenta? Registrate aqui
+          ¿No tienes una cuenta? Registrate aquí
       </ion-button>
     </ion-buttons>
     </ion-toolbar>

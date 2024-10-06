@@ -13,38 +13,25 @@
   </ion-header>
 
    
- <ion-content>
-   <form [formGroup]="formularioRegistro">
-     <ion-item>
-      <ion-label position="floating">nombre propietario</ion-label>
-      <ion-input formControlName ="nombre" ngModel minlength="4"></ion-input>
-      
-     </ion-item>
-     <ion-item>
-      <ion-label position="floating">contrasena</ion-label>
-      <ion-input formControlName ="password" ngModel minlength="4" type="password"></ion-input>
-      
-     </ion-item>
-     <ion-item>
-      <ion-label position="floating">confirmar contrasena</ion-label>
-      <ion-input formControlName ="confirmPassword" ngModel minlength="4" type="password"></ion-input>
-      
-     </ion-item>
-     <ion-item>
-
-      <ion-label position="floating">rut empresa</ion-label>
-      <ion-input formControlName ="rut_empresa" type="number"></ion-input>
-      
-     </ion-item>
+  <ion-content>
+    <form [formGroup]="formularioRegistro">
+      <ion-item>
+       <ion-label position="floating">Nombre del propietario</ion-label>
+       <ion-input formControlName="nombre" ngModel minlength="3"></ion-input>
+      </ion-item>
+      <ion-item>
+       <ion-label position="floating">Contraseña</ion-label>
+       <ion-input formControlName="password" ngModel minlength="3" type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+       <ion-label position="floating">Confirmar contraseña</ion-label>
+       <ion-input formControlName="confirmPassword" ngModel minlength="3" type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+       <ion-label position="floating">Rut de la empresa</ion-label>
+       <ion-input formControlName="rut" type="text"></ion-input>
+      </ion-item>
    </form>
-     
-   
-    
-   <ion-fab vertical="bottom" horizontal="center">
-    <ion-fab-button (click)="addPhotoToGallery()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
       <br>
      <ion-button expand="block" (click)="registrarse()" >
       registrarse

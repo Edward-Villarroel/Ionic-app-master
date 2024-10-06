@@ -24,31 +24,31 @@ export class RegistroPage implements OnInit {
     })
 
   }
-    async registrarse(){
-      var f = this.formularioRegistro.value;
+  async registrarse() {
+    const f = this.formularioRegistro.value;
 
-      if(this.formularioRegistro.invalid){
-        const alert = await this.alertController.create({
-          header: 'Alerta',
-          message: 'Informacion erronea o incompleta',
-          buttons: ['OK'],
-        });
-    
-        await alert.present();
-        return;
-      }else{
-        var usuario={
-          nombre: f.nombre,
-          password: f.password,
-          rut: f.rut,
-          role:'persona',
-          foto:this.foto.loadSaved()
-        }
-        this.route.navigate(['./login']);
-      }
+    if (this.formularioRegistro.invalid) {
+      const alert = await this.alertController.create({
+        header: 'Alerta',
+        message: 'Información errónea o incompleta',
+        buttons: ['OK'],
+      });
 
-     await this.storage.set('usuario',usuario);
+      await alert.present();
+      return;
     }
+
+    const usuario = {
+      nombre: f.nombre,
+      password: f.password,
+      rut: f.rut,
+      role: 'persona',
+    };
+
+    await this.storage.set('usuario', usuario); 
+    this.route.navigate(['./login']);
+  }
+
     addPhotoToGallery() {
       this.photoService.addNewToGallery();
   

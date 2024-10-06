@@ -13,12 +13,12 @@
   </ion-header>
 
    
- <ion-content>
-    <h1>¿que tipo de cuenta quieres registrar?</h1>
-    <ion-buttons>
-      <ion-button [routerLink]="['../registro-tienda']">tienda</ion-button>
-      <ion-button [routerLink]="['../registro']">persona</ion-button>
-    </ion-buttons>
+  <ion-content>
+    <h1 class="center-title">¿Qué tipo de cuenta quieres registrar?</h1>
+    <div class="button-container">
+      <ion-button color="primary" [routerLink]="['../registro-tienda']">tienda</ion-button>
+      <ion-button color="primary" [routerLink]="['../registro']">persona</ion-button>
+    </div>
+  </ion-content>
+  </ion-app>
   
- </ion-content>
-</ion-app>
