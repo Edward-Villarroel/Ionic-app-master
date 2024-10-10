@@ -1,0 +1,54 @@
+<ion-app>
+
+  <ion-header>
+    <ion-toolbar color="warning">
+      <ion-buttons slot="start">
+        <ion-button [routerLink]="['../home']">
+          volver
+      </ion-button>
+    </ion-buttons>
+      <img id="img" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
+    </ion-toolbar>
+     
+  </ion-header>
+
+   
+ <ion-content>
+   <form [formGroup]="formularioRegistro">
+     <ion-item>
+      <ion-label position="floating">Nombre Propietario</ion-label>
+      <ion-input formControlName ="nombre" ngModel minlength="4"></ion-input>
+      
+     </ion-item>
+     <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName ="password" ngModel minlength="4" type="password"></ion-input>
+      
+     </ion-item>
+     <ion-item>
+      <ion-label position="floating">Confirmar Contrasena</ion-label>
+      <ion-input formControlName ="confirmPassword" ngModel minlength="4" type="password"></ion-input>
+      
+     </ion-item>
+     <ion-item>
+
+      <ion-label position="floating">Rut Empresa</ion-label>
+      <ion-input formControlName ="rut_empresa" type="number"></ion-input>
+      
+     </ion-item>
+   </form>
+     
+   
+    
+   <ion-fab vertical="bottom" horizontal="center">
+    <ion-fab-button (click)="addPhotoToGallery()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+      <br>
+     <ion-button expand="block" (click)="registrarse()" >
+      Registrarse
+  </ion-button>
+  
+ </ion-content>
+</ion-app>

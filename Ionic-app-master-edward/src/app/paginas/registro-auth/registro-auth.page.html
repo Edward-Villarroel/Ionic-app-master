@@ -1,0 +1,24 @@
+<ion-app>
+
+  <ion-header>
+    <ion-toolbar color="warning">
+      <ion-buttons slot="start">
+        <ion-button [routerLink]="['../registro']">
+          volver
+      </ion-button>
+    </ion-buttons>
+      <img id="img" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
+    </ion-toolbar>
+     
+  </ion-header>
+
+   
+ <ion-content>
+    <h1>¿que tipo de cuenta quieres registrar?</h1>
+    <ion-buttons>
+      <ion-button [routerLink]="['../registro-tienda']">tienda</ion-button>
+      <ion-button [routerLink]="['../registro']">persona</ion-button>
+    </ion-buttons>
+  
+ </ion-content>
+</ion-app>
