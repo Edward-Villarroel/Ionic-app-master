@@ -83,5 +83,9 @@ export class LoginPage implements OnInit {
     const ingresado=await this.storage.get('ingresado');
     await this.photoService.loadSaved();
   }
+
+  irPerfil() {
+    this.route.navigate(['/perfil']);
+  }
   
 }
