@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Storage } from '@capacitor/storage';  
 
 @Component({
   selector: 'app-perfil',
@@ -9,13 +10,17 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 export class PerfilPage implements OnInit {
 
   @ViewChild('profileAvatar', { static: true }) avatarElement?: ElementRef;
+  @ViewChild('avatarSuperior', { static: true }) avatarSuperiorElement?: ElementRef;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.loadProfileImage();
+  }
+
 
   async cambiarFoto() {
-    // Crear un Action Sheet para que el usuario elija entre tomar una foto o seleccionar desde la galería
     const actionSheet = document.createElement('ion-action-sheet');
     actionSheet.header = 'Seleccionar Imagen';
     actionSheet.buttons = [
@@ -42,9 +47,9 @@ export class PerfilPage implements OnInit {
     await actionSheet.present();
   }
 
+
   async tomarFoto(source: CameraSource) {
     try {
-      // Obtener la imagen desde la cámara o galería
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,
@@ -52,15 +57,49 @@ export class PerfilPage implements OnInit {
         source: source
       });
 
-      // URL de la imagen seleccionada o tomada
       const imageUrl = image.webPath;
 
-      // Verificar si el URL de la imagen es válido y luego actualizar el elemento img
-      if (imageUrl && this.avatarElement) {
-        this.avatarElement.nativeElement.src = imageUrl;
+
+      if (imageUrl) {
+        if (this.avatarElement) {
+          this.avatarElement.nativeElement.src = imageUrl;
+        }
+        if (this.avatarSuperiorElement) {
+          this.avatarSuperiorElement.nativeElement.src = imageUrl;
+        }
+
+        await this.saveProfileImage(imageUrl);
       }
     } catch (error) {
       console.error('Error al tomar o seleccionar la foto:', error);
+    }
+  }
+
+  async saveProfileImage(imageUrl: string) {
+    try {
+      await Storage.set({
+        key: 'profileImage',
+        value: imageUrl
+      });
+    } catch (error) {
+      console.error('Error al guardar la imagen:', error);
+    }
+  }
+
+  async loadProfileImage() {
+    try {
+      const { value } = await Storage.get({ key: 'profileImage' });
+
+      if (value) {
+        if (this.avatarElement) {
+          this.avatarElement.nativeElement.src = value;
+        }
+        if (this.avatarSuperiorElement) {
+          this.avatarSuperiorElement.nativeElement.src = value;
+        }
+      }
+    } catch (error) {
+      console.error('Error al cargar la imagen:', error);
     }
   }
 }
