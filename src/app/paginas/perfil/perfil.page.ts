@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Storage } from '@capacitor/storage';  
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-perfil',
@@ -8,17 +8,14 @@ import { Storage } from '@capacitor/storage';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-
-  @ViewChild('profileAvatar', { static: true }) avatarElement?: ElementRef;
-  @ViewChild('avatarSuperior', { static: true }) avatarSuperiorElement?: ElementRef;
+  profileImage: string | null = null;
 
   constructor() { }
 
   ngOnInit() {
-
+    console.log('Cargando imagen de perfil...');
     this.loadProfileImage();
   }
-
 
   async cambiarFoto() {
     const actionSheet = document.createElement('ion-action-sheet');
@@ -47,7 +44,6 @@ export class PerfilPage implements OnInit {
     await actionSheet.present();
   }
 
-
   async tomarFoto(source: CameraSource) {
     try {
       const image = await Camera.getPhoto({
@@ -59,15 +55,8 @@ export class PerfilPage implements OnInit {
 
       const imageUrl = image.webPath;
 
-
       if (imageUrl) {
-        if (this.avatarElement) {
-          this.avatarElement.nativeElement.src = imageUrl;
-        }
-        if (this.avatarSuperiorElement) {
-          this.avatarSuperiorElement.nativeElement.src = imageUrl;
-        }
-
+        this.profileImage = imageUrl; 
         await this.saveProfileImage(imageUrl);
       }
     } catch (error) {
@@ -89,15 +78,9 @@ export class PerfilPage implements OnInit {
   async loadProfileImage() {
     try {
       const { value } = await Storage.get({ key: 'profileImage' });
-
-      if (value) {
-        if (this.avatarElement) {
-          this.avatarElement.nativeElement.src = value;
-        }
-        if (this.avatarSuperiorElement) {
-          this.avatarSuperiorElement.nativeElement.src = value;
-        }
-      }
+      console.log('Valor cargado de Storage:', value); 
+      this.profileImage = value ? value : null; 
+      console.log('profileImage:', this.profileImage); 
     } catch (error) {
       console.error('Error al cargar la imagen:', error);
     }

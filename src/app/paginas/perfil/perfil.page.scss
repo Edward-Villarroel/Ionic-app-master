@@ -8,10 +8,10 @@
     display: block;
   }
   .custom-toolbar {
-    height: 50px; /* Ajuste de la altura de la barra de herramientas */
+    height: 50px; 
     display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; 
+    align-items: center; 
     position: relative;
   }
   
@@ -19,16 +19,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1; /* Hace que el contenedor del logo ocupe el máximo espacio disponible */
+    flex-grow: 1; 
   }
   
   .small-logo {
-    width: 80px;  /* Ajuste del ancho del logo */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 80px;  
+    height: auto; 
   }
   
   ion-buttons {
     position: absolute;
-    left: 0; /* Asegura que los botones se mantengan en el lado izquierdo */
+    left: 0; 
   }
   

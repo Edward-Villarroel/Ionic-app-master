@@ -1,0 +1,70 @@
+#titulo {
+  color: white;
+}
+
+#img {
+  width: 60px;
+  height: 40px;
+  margin: auto;
+  display: block;
+}
+
+.custom-toolbar {
+  height: 50px; 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.logo-container {
+  flex-grow: 1;  
+  text-align: center;  
+}
+
+.small-logo {
+  width: 80px;  
+  height: auto; 
+}
+
+ion-buttons[slot="start"] {
+  margin-left: 10px;
+}
+
+ion-buttons[slot="end"] {
+  margin-right: 10px; 
+}
+
+ion-toolbar {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.mensaje-exito {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.circulo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: green;
+  position: absolute; /* Cambia a 'absolute' para pruebas */
+  top: 50%; /* Ajusta según sea necesario */
+  left: 50%; /* Ajusta según sea necesario */
+  transform: translate(-50%, -50%); /* Centra el círculo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(209, 43, 43);
+  font-weight: bold;
+}
+
+.ticket {
+  position: absolute; /* Esto permite centrar el texto dentro del círculo */
+  width: 80%; /* Ancho del ticket */
+  text-align: center; /* Centra el texto */
+  line-height: 1.2; /* Espaciado entre líneas */
+}

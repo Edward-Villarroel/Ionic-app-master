@@ -14,22 +14,28 @@
   <ion-card>
     <ion-item lines="none">
       <ion-avatar slot="start">
-        <img #avatarSuperior id="fotoPerfil2" src="assets/img/default-avatar.png" alt="Imagen de perfil">
+        <img *ngIf="profileImage; else defaultIcon" [src]="profileImage" alt="Imagen de perfil">
+        <ng-template #defaultIcon>
+          <ion-icon name="person-circle" size="large"></ion-icon>
+        </ng-template>
       </ion-avatar>
       <ion-label>
         <h2>Nombre de Usuario</h2>
-        <p>Descripción o información adicional</p> 
+        <p>Descripción o información adicional</p>
       </ion-label>
     </ion-item>
   </ion-card>
 
   <ion-list>
-    <ion-item>
-      <ion-avatar slot="start" (click)="cambiarFoto()">
-        <img #profileAvatar id="fotoPerfil" src="assets/img/default-avatar.png" alt="Imagen de perfil">
+    <ion-item (click)="cambiarFoto()">
+      <ion-avatar slot="start">
+        <img *ngIf="profileImage; else defaultIcon2" [src]="profileImage" alt="Imagen de perfil">
+        <ng-template #defaultIcon2>
+          <ion-icon name="person-circle" size="large"></ion-icon>
+        </ng-template>
       </ion-avatar>
       <ion-label>
-        <h2>Tu Foto de Perfil</h2> 
+        <h2>Tu Foto de Perfil</h2>
       </ion-label>
     </ion-item>
 

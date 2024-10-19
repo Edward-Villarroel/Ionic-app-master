@@ -87,5 +87,9 @@ export class LoginPage implements OnInit {
   irPerfil() {
     this.route.navigate(['/perfil']);
   }
+
+  irFormulario() {
+    this.route.navigate(['/formulario']);
+  }
   
 }
