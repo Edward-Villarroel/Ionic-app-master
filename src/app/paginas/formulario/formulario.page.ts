@@ -27,7 +27,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class FormularioPage implements OnInit {
   formulario: FormGroup;
-  enviado = false; // Agrega esta línea para declarar la propiedad 'enviado'.
+  enviado = false; 
 
   constructor(private formBuilder: FormBuilder, private popoverController: PopoverController) {
     this.formulario = this.formBuilder.group({
@@ -57,16 +57,13 @@ export class FormularioPage implements OnInit {
     if (this.formulario.valid) {
       console.log('Formulario válido:', this.formulario.value);
       
-      // Muestra el mensaje de éxito
       this.enviado = true;
 
-      // Reinicia el formulario si lo deseas
       this.formulario.reset();
       
-      // Oculta el mensaje después de un tiempo
       setTimeout(() => {
         this.enviado = false;
-      }, 3000); // 3 segundos
+      }, 3000); 
     } else {
       console.log('Formulario no válido');
     }

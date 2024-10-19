@@ -51,10 +51,10 @@ ion-toolbar {
   height: 100px;
   border-radius: 50%;
   background-color: green;
-  position: absolute; /* Cambia a 'absolute' para pruebas */
-  top: 50%; /* Ajusta según sea necesario */
-  left: 50%; /* Ajusta según sea necesario */
-  transform: translate(-50%, -50%); /* Centra el círculo */
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,8 +63,8 @@ ion-toolbar {
 }
 
 .ticket {
-  position: absolute; /* Esto permite centrar el texto dentro del círculo */
-  width: 80%; /* Ancho del ticket */
-  text-align: center; /* Centra el texto */
-  line-height: 1.2; /* Espaciado entre líneas */
+  position: absolute; 
+  width: 80%; 
+  text-align: center; 
+  line-height: 1.2; 
 }
