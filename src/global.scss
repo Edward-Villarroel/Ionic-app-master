@@ -37,3 +37,9 @@
 @import "@ionic/angular/css/palettes/dark.system.css";
 
 
+.custom-modal {
+    --width: 300px;
+    --height: 300px;
+    --border-radius: 50%;
+    --background: transparent;
+  }

@@ -60,10 +60,17 @@
     <ion-button expand="full" type="submit" [disabled]="!formulario.valid">Enviar</ion-button>
   </form>
 
-  <div class="mensaje-exito" *ngIf="enviado">
-    <div class="circulo" [@circuloAnimacion]="enviado ? 'activo' : 'inactivo'"></div>
-    <span>Formulario enviado con éxito</span>
-  </div>
+  <ion-card *ngIf="enviado" class="mensaje-exito">
+    <ion-card-content>
+      <div class="circulo">
+        <ion-icon name="checkmark-outline" class="ticket"></ion-icon>
+      </div>
+      <span>Formulario enviado con éxito</span>
+      <ion-button expand="block" (click)="cerrarPopup()">
+        Cerrar ({{ tiempoRestante }}s)
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
   <ion-button (click)="abrirAyuda()" expand="full">
     <ion-icon name="help-circle"></ion-icon> Ayuda

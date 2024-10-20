@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { PopoverController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PopoverController, ModalController } from '@ionic/angular';
 import { AyudaComponent } from '../../component/ayuda/ayuda.component';
+import { PopupFormulario } from '../../component/popupformulario/popupformulario.component'; 
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -28,8 +29,14 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class FormularioPage implements OnInit {
   formulario: FormGroup;
   enviado = false; 
+  tiempoRestante: number = 10;  
+  intervalo: any;  
 
-  constructor(private formBuilder: FormBuilder, private popoverController: PopoverController) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private popoverController: PopoverController,
+    private modalController: ModalController 
+  ) {
     this.formulario = this.formBuilder.group({
       nombreDuenio: ['', [Validators.required, Validators.minLength(3)]],
       apellidoDuenio: ['', [Validators.required, Validators.minLength(4)]],
@@ -53,20 +60,37 @@ export class FormularioPage implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.formulario.valid) {
-      console.log('Formulario válido:', this.formulario.value);
-      
       this.enviado = true;
-
+      await this.mostrarPopup(); 
       this.formulario.reset();
-      
-      setTimeout(() => {
-        this.enviado = false;
-      }, 3000); 
-    } else {
-      console.log('Formulario no válido');
     }
+  }
+
+  async mostrarPopup() {
+    const modal = await this.modalController.create({
+      component: PopupFormulario,
+      componentProps: { tiempoRestante: this.tiempoRestante }, 
+    });
+    await modal.present();
+
+    this.iniciarCuentaRegresiva();
+  }
+
+  iniciarCuentaRegresiva() {
+    this.tiempoRestante = 10;  
+    this.intervalo = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante === 0) {
+        this.cerrarPopup(); 
+      }
+    }, 1000);
+  }
+
+  cerrarPopup() {
+    clearInterval(this.intervalo); 
+    this.enviado = false; 
   }
 
   async abrirAyuda() {

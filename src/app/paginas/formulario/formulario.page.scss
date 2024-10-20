@@ -41,30 +41,25 @@ ion-toolbar {
 
 .mensaje-exito {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  text-align: center;
 }
 
 .circulo {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: green;
-  position: absolute; 
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
+  background-color: grey;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(209, 43, 43);
-  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .ticket {
-  position: absolute; 
-  width: 80%; 
-  text-align: center; 
-  line-height: 1.2; 
+  font-size: 60px;
+  color: green;
 }
