@@ -1,0 +1,36 @@
+<ion-app>
+  <ion-header>
+    <ion-toolbar color="warning">
+      <ion-buttons slot="start">
+        <ion-button [routerLink]="['../login']">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <img id="img" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content id="content">
+    <div class="overlay">
+      <h1 style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">¿Qué tipo de cuenta quieres registrar?</h1>
+      <!-- Carrusel de Bootstrap -->
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner custom-carousel">
+          <div class="carousel-item active">
+            <img src="../../assets/icon/Diseño sin título.png" class="d-block mx-auto custom-img" alt="Imagen 1">
+          </div>
+          <div class="carousel-item">
+            <img src="../../assets/icon/caja_vecina_logo.png" class="d-block mx-auto custom-img" alt="Imagen 2">
+          </div>
+          <div class="carousel-item">
+            <img src="../../assets/icon/SeñoraVecina.jpg" class="d-block mx-auto custom-img" alt="Imagen 3">
+          </div>
+        </div>
+      </div>
+      <div class="button-container">
+        <ion-button color="primary" expand="block" [routerLink]="['../registro-tienda']">Tienda</ion-button>
+        <ion-button color="primary" expand="block" [routerLink]="['../registro']">Persona</ion-button>
+      </div>
+    </div>
+  </ion-content>
+</ion-app>
