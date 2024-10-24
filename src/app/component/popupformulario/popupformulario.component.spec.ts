@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PopupformularioComponent } from './popupformulario.component';
+import { PopupFormulario } from './popupformulario.component';
 
 describe('PopupformularioComponent', () => {
-  let component: PopupformularioComponent;
-  let fixture: ComponentFixture<PopupformularioComponent>;
+  let component: PopupFormulario;
+  let fixture: ComponentFixture<PopupFormulario>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PopupformularioComponent ],
+      declarations: [ PopupFormulario ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PopupformularioComponent);
+    fixture = TestBed.createComponent(PopupFormulario);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

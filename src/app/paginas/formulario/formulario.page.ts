@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PopoverController, ModalController } from '@ionic/angular';
 import { AyudaComponent } from '../../component/ayuda/ayuda.component';
-import { PopupFormulario } from '../../component/popupformulario/popupformulario.component'; 
+import { PopupFormulario} from '../../component/popupformulario/popupformulario.component'; 
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({

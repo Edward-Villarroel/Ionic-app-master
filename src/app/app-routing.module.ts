@@ -51,20 +51,18 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./paginas/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },  {
+  },
+  {
     path: 'formulario',
     loadChildren: () => import('./paginas/formulario/formulario.module').then( m => m.FormularioPageModule)
   },
-
-
-
-
 ];
+
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

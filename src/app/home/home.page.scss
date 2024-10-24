@@ -12,9 +12,8 @@
   font-size: 20px;
   line-height: 26px;
 }
-#img{
-  width: 60px;
-  height: 40px;
+#img {
+  width: 5%;
   margin: auto;
   display: block;
 }
@@ -27,24 +26,80 @@
   margin: 0;
 }
 
-
-#h1{
-  color:red
+#h1 {
+  color: red;
 }
 
-#user{
- 
+#user {
   display: block;
-  width:30%;
+  width: 30%;
   margin: auto;
-
 }
 
-#parrafos{
+#parrafos {
   text-align: center;
   font-size: x-large;
 }
-#toolbar{
+#toolbar {
   background-color: #ff9900;
+}
 
+//ESTILO MEJORADOS
+
+#content {
+  --background: url("https://www.revistaabogacia.com/wp-content/uploads/2022/05/Entrada-y-salida-de-socios.webp")
+    no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+/* Superposición semitransparente */
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+/* Estilo para los botones */
+ion-button {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* responsividad */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .overlay {
+    padding: 15px;
+    width: 100%;
+    max-width: 90%;
+  }
+
+  ion-button {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 769px) {
+  .overlay {
+    width: 80%;
+  }
 }
