@@ -1,6 +1,70 @@
-#img{
+#img {
   width: 60px;
   height: 40px;
   margin: auto;
   display: block;
+}
+
+#parrafos {
+  text-align: center;
+  font-size: x-large;
+  color: white;
+}
+
+#toolbar {
+  background-color: #ff9900;
+}
+
+#content {
+  --background: url("https://pbs.twimg.com/media/GPZgFplWcAArwXT.jpg") no-repeat
+    center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+/* Superposición */
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Estilo para los botones */
+ion-button {
+  --border-radius: 20px;
+  width: 100%;
+  gap: 15px;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  #parrafos {
+    font-size: 1.5em;
+  }
+
+  .overlay {
+    padding: 15px;
+    width: 100%;
+    max-width: 90%;
+  }
+
+  ion-button {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 769px) {
+  .overlay {
+    width: 80%;
+  }
 }

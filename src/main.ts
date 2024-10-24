@@ -3,12 +3,15 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { AppModule } from './app/app.module';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { environment } from './environments/environment';
-import { enableProdMode } from '@angular/core';
+import { enableProdMode,NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+
+
 
 if(environment.production){
   enableProdMode}  
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+  .catch((err: any) => console.log(err));
 
  defineCustomElements(window)
 

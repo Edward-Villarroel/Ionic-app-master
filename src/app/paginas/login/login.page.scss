@@ -7,25 +7,24 @@
   top: 50%;
   transform: translateY(-50%);
 }
-#mapa{
-width: 85%;
-display: block;
+#map {
+  height: 60%;
+  width: 75%;
+  margin: auto;
 }
-#img{
+#img {
   width: 60px;
   height: 40px;
-  margin: auto;
-  display: block;
+  margin: 0 20px;
+  margin-left: 45%;
+  align-items: center;
 }
-#user{
-
- 
-  width:10%;
-  float:right
-
+#user {
+  width: 10%;
+  float: right;
 }
-#button{
-  float:right
+#button {
+  float: right;
 }
 .map-container {
   height: 100%;
@@ -39,7 +38,7 @@ display: block;
 
 /* Colores de BancoEstado*/
 .navbar-expand-lg {
-  background-color: #ff9100;
+  background-color: #ffa726;
 }
 .navbar-expand-lg .navbar-brand,
 .navbar-expand-lg .nav-link {
@@ -47,9 +46,15 @@ display: block;
 }
 .offcanvas-header .bi-person-circle {
   font-size: 1.5rem;
-  margin-left: 1rem; 
+  margin-left: 1rem;
 }
 .offcanvas-header h5 {
   margin: 0;
   margin-left: 2rem;
+}
+
+//ESTILOS EXTRAS
+
+ion-button {
+  --border-radius: 25px; /* Bordes redondeados */
 }

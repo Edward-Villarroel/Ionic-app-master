@@ -65,3 +65,75 @@
     font-weight: bold;
     color: #ff9100; 
   }
+
+
+
+
+//Extras para mejorar estilo
+
+#content {
+  --background: url("https://i0.wp.com/chocale.cl/wp-content/uploads/2021/11/giro-qr-bancoestado-cajavecina.jpg?fit=1200%2C800&ssl=1")
+    no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+/* Superposición semitransparente */
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Estilo del título */
+.title-container h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Estilo del botón */
+#ingre {
+  --border-radius: 20px;
+  width: 80%;
+  max-width: 300px;
+  font-weight: bold;
+  margin: 20px auto 0;
+  font-size: 1em;
+  position: relative;
+  top: -20px; /* Ajusta la posición para estar más cerca del título */
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  /* dispositivos móviles */
+  .title-container h1 {
+    font-size: 1.8em;
+  }
+
+  .overlay {
+    padding: 15px;
+    width: 100%;
+    max-width: 90%;
+  }
+
+  #ingre {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 769px) {
+  /* pantallas más grandes */
+  .overlay {
+    width: 80%;
+  }
+}

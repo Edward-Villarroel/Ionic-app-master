@@ -1,13 +1,19 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import {Router} from '@angular/router';
-import { ToastController ,AlertController} from '@ionic/angular';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+
+import { Router } from '@angular/router';
+import { ToastController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { Map, tileLayer, marker } from 'leaflet';
 import { PhotoService } from 'src/app/services/photo.service';
-
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
-  
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
@@ -20,7 +26,8 @@ export class LoginPage implements OnInit {
    contrasena:string="";
    cerrar:string="";
    photo:PhotoService=new PhotoService;
-  constructor( public mensaje:ToastController, private route:Router, public alerta:AlertController, private storage: Storage, public photoService: PhotoService) {
+   map: Map | undefined;
+  constructor( public mensaje:ToastController, private route:Router, public alerta:AlertController, private storage: Storage, public photoService: PhotoService, private geolocation:Geolocation) {
     this.updateImage();
     this.msg();
     
@@ -92,4 +99,35 @@ export class LoginPage implements OnInit {
     this.route.navigate(['/formulario']);
   }
   
+  ngAfterViewInit(): void {
+    this.initializeMap();
+  }
+
+  initializeMap() {
+    this.map = new Map('map').setView([51.505, -0.09], 13);
+    tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(this.map);
+
+    this.geolocation
+      .getCurrentPosition()
+      .then((resp: { coords: { latitude: any; longitude: any; }; }) => {
+        const lat = resp.coords.latitude;
+        const lng = resp.coords.longitude;
+
+        if (this.map) {
+          this.map.setView([lat, lng], 13);
+
+          marker([lat, lng])
+            .addTo(this.map)
+            .bindPopup('Tu ubicación')
+            .openPopup();
+        }
+      })
+      .catch((error: any) => {
+        console.log('Error obteniendo la ubicación', error);
+      });
+  }
 }

@@ -27,38 +27,115 @@
   margin: 0;
 }
 
-
-#h1{
-  color:red
+#h1 {
+  color: red;
 }
 
-#user{
- 
+#user {
   display: block;
-  width:10%;
+  width: 10%;
   margin: auto;
-
 }
 
-#parrafos{
+#parrafos {
   text-align: center;
   font-size: x-large;
 }
-#toolbar{
+#toolbar {
   background-color: #ff9900;
 }
-#ion-content{
-  position:absolute;
+#ion-content {
+  position: absolute;
   text-align: center;
-}
-.center-title {
-  text-align: center;
-  margin-top: 20px; 
 }
 
-.button-container {
+///ESTILO DEL CARRUSEL
+.custom-carousel {
+  height: 400px;
+  display: flex;
+}
+
+.custom-img {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+///ESTILO DE BOTONES +
+///Fondo del ion-content con la imagen
+#content {
+  --background: url("https://pbs.twimg.com/media/GPZgFplWcAArwXT.jpg") no-repeat
+    center center / cover;
   display: flex;
   justify-content: center;
-  margin-top: 50px; 
-  gap: 10px; 
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+/* Superposición semitransparente */
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+/* Carrusel personalizado */
+.custom-carousel {
+  margin-bottom: 10px;
+}
+
+/* Estilo para los botones */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+ion-button {
+  --border-radius: 20px;
+  width: 100%;
+  max-width: 300px;
+  font-weight: bold;
+}
+
+/* responsividad */
+@media (max-width: 768px) {
+  /* dispositivos móviles */
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .overlay {
+    padding: 15px;
+    width: 100%;
+    max-width: 90%;
+  }
+
+  .custom-carousel img {
+    max-height: 200px;
+  }
+
+  ion-button {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 769px) {
+  /* pantallas más grandes */
+  .overlay {
+    width: 80%;
+  }
 }
