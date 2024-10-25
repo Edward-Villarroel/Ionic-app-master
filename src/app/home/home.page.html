@@ -1,7 +1,13 @@
 <ion-app>
   <ion-header>
-    <ion-toolbar color="warning">
-      <img id="img" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
+    <ion-toolbar class="custom-toolbar" color="warning">
+      <ion-buttons slot="start">
+        <ion-button [routerLink]="['../login']"></ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-buttons>
+      <div class="logo-container">
+        <img id="img" class="small-logo" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
+      </div>
     </ion-toolbar>
   </ion-header>
 
