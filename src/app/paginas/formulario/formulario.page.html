@@ -57,7 +57,7 @@
       El teléfono no puede tener más de 9 dígitos.
     </ion-text>
 
-    <ion-button expand="full" type="submit" [disabled]="!formulario.valid">Enviar</ion-button>
+    <ion-button color="warning"expand="full" type="submit" [disabled]="!formulario.valid">Enviar</ion-button>
   </form>
 
   <ion-card *ngIf="enviado" class="mensaje-exito">
@@ -72,10 +72,10 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button (click)="abrirAyuda()" expand="full">
+  <ion-button color="warning"(click)="abrirAyuda()" expand="full">
     <ion-icon name="help-circle"></ion-icon> Ayuda
   </ion-button>
 
-  <ion-button expand="full" (click)="subirImagen()">Subir Imagen</ion-button>
+  <ion-button color="warning" expand="full" (click)="subirImagen()">Subir Imagen</ion-button>
   <input type="file" (change)="subirPDF($event)">
 </ion-content>
