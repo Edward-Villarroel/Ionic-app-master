@@ -41,14 +41,6 @@ const routes: Routes = [
     canActivate:[AuthGuard],
   },
   {
-    path: 'photo',
-    loadChildren: () => import('./paginas/photo/photo.module').then( m => m.PhotoPageModule)
-  },
-  {
-    path: 'api',
-    loadChildren: () => import('./paginas/api/api.module').then( m => m.ApiPageModule)
-  },
-  {
     path: 'perfil',
     loadChildren: () => import('./paginas/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
