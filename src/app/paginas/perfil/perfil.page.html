@@ -1,8 +1,9 @@
 <ion-header>
   <ion-toolbar class="custom-toolbar" color="warning">
     <ion-buttons slot="start">
-      <ion-button [routerLink]="['../login']"></ion-button>
-      <ion-icon name="arrow-back"></ion-icon>
+      <ion-button [routerLink]="['../login']">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <div class="logo-container">
       <img id="img" class="small-logo" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo">
@@ -39,14 +40,14 @@
       </ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item button routerLink="/cambiar-contrasena">
       <ion-icon slot="start" name="key"></ion-icon>
       <ion-label>Cambiar contraseña</ion-label>
     </ion-item>
 
-    <ion-item>
-      <ion-icon slot="start" name="mail"></ion-icon>
-      <ion-label>Actualizar correo electrónico</ion-label>
+    <ion-item button routerLink="/cambiar-usuario">
+      <ion-icon slot="start" name="person"></ion-icon>
+      <ion-label>Cambiar nombre de usuario</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
