@@ -17,22 +17,27 @@ export class CambiarContrasenaPage {
     }, { validators: this.passwordsMatch });
   }
 
-  // Valida que las contraseñas coincidan
+
   passwordsMatch(formGroup: FormGroup) {
     const newPassword = formGroup.get('newPassword')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
     return newPassword === confirmPassword ? null : { notMatching: true };
   }
 
-  // Envía el formulario
+
+  
   onSubmit() {
     if (this.passwordForm.valid) {
-      // Aquí iría la lógica para cambiar la contraseña
+ 
+
+  onSubmit() {
+    if (this.passwordForm.valid) {
+      
       console.log('Contraseña cambiada con éxito');
     }
   }
 
-  // Limpia el formulario
+
   clearForm() {
     this.passwordForm.reset();
   }
