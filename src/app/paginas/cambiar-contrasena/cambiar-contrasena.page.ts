@@ -17,17 +17,22 @@ export class CambiarContrasenaPage {
     }, { validators: this.passwordsMatch });
   }
 
-  
+
   passwordsMatch(formGroup: FormGroup) {
     const newPassword = formGroup.get('newPassword')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
     return newPassword === confirmPassword ? null : { notMatching: true };
   }
 
+
   
   onSubmit() {
     if (this.passwordForm.valid) {
  
+
+  onSubmit() {
+    if (this.passwordForm.valid) {
+      
       console.log('Contraseña cambiada con éxito');
     }
   }
