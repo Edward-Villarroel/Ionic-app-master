@@ -12,10 +12,14 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { CommonModule } from '@angular/common';
+import { PopupFormulario } from './component/popupformulario/popupformulario.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -23,6 +27,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    CommonModule,
+    PopupFormulario,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
