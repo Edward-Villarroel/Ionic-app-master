@@ -43,4 +43,13 @@
     --border-radius: 50%;
     --background: transparent;
   }
+  ion-button {
+    width: 100%;
+    font-size: 0.9em;
+    --background: #ff9900;
+    --border-radius: 20px;
+    width: 100%;
+    max-width: 300px;
+    font-weight: bold;
+  }
 @import url("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
