@@ -2,7 +2,7 @@ import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { IonicModule, IonicRouteStrategy,IonContent, IonIcon, IonButton, IonButtons, IonToolbar, IonHeader, IonCardContent, IonCardTitle } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy,} from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';

@@ -55,7 +55,8 @@ const routes: Routes = [
   {
     path: 'formulario',
     loadChildren: () => import('./paginas/formulario/formulario.module').then( m => m.FormularioPageModule)
-  },  {
+  },
+  {
     path: 'cambiar-contrasena',
     loadChildren: () => import('./paginas/cambiar-contrasena/cambiar-contrasena.module').then( m => m.CambiarContrasenaPageModule)
   },
