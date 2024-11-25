@@ -31,7 +31,7 @@ export class GeolocationService {
   getCurrentPosition(): Observable<GeolocationPosition> {
     return new Observable(observer => {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
+        const watchId = navigator.geolocation.watchPosition(
           (position) => observer.next(position),
           (error) => observer.error(error),
           {
@@ -45,4 +45,5 @@ export class GeolocationService {
       }
     });
   }
+  
 }

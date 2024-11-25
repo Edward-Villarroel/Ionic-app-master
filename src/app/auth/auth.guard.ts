@@ -1,34 +1,33 @@
 import { Injectable } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { FirebaseLoginService } from '../services/firebase-login.service';
 import { AlertController } from '@ionic/angular';
-import { Observable, from } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
+export class AuthGuard implements CanActivate {
   constructor(
     private firebase: FirebaseLoginService,
     private route: Router,
     private alertController: AlertController
   ) {}
 
-  canActivate(route: any, state: any): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
-      this.firebase.isLoggedIn().subscribe((isLoggedIn) => {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
+    return this.firebase.isLoggedIn().pipe(
+      map((isLoggedIn) => {
         if (isLoggedIn) {
-          this.showAlert().then(() => {
-            observer.next(false); 
-            observer.complete(); 
-          });
+          this.showAlert()
+          return false;
         } else {
-
-          observer.next(true); 
-          observer.complete(); 
+          return true;
         }
-      });
-    });
+      })
+    );
   }
 
   async showAlert() {

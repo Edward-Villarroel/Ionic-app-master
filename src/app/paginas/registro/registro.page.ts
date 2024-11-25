@@ -3,14 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  Validator,
   FormControl,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseLoginService } from '../../services/firebase-login.service';
 
 @Component({
@@ -24,18 +21,25 @@ export class RegistroPage implements OnInit {
   constructor(
     public fb: FormBuilder,
     public alertController: AlertController,
-    public route: Router,
+    private route: Router,
     private storage: Storage,
-    private firebase: FirebaseLoginService
+    private firebaseLoginService: FirebaseLoginService
   ) {
     this.formularioRegistro = this.fb.group({
       nombre: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-      rut: new FormControl('', Validators.required),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      rut: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]+-[0-9kK]{1}$'),
+      ]),
     });
   }
+
   async registrarse() {
-    var f = this.formularioRegistro.value;
+    const formValue = this.formularioRegistro.value;
 
     if (this.formularioRegistro.invalid) {
       const alert = await this.alertController.create({
@@ -43,24 +47,43 @@ export class RegistroPage implements OnInit {
         message: 'Información errónea o incompleta',
         buttons: ['OK'],
       });
-
       await alert.present();
       return;
-    } else {
-      var usuario = {
-        nombre: f.nombre,
-        password: f.password,
-        rut: f.rut,
-        role: 'persona',
-      };
-      this.route.navigate(['./login']);
-      await this.firebase.create_user(f.nombre, f.password, usuario.role, usuario.rut);
     }
-   
+    const nuevoUsuario = {
+      nombre: formValue.nombre,
+      password: formValue.password,
+      rut: formValue.rut,
+      role: 'persona',
+    };
+
+    try {
+      await this.firebaseLoginService.createUser(
+        formValue.nombre,
+        formValue.password,
+        nuevoUsuario.role,
+        nuevoUsuario.rut
+      );
+
+      const alert = await this.alertController.create({
+        header: 'Éxito',
+        message: 'Usuario registrado exitosamente.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      this.route.navigate(['./login']);
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Ocurrió un error al registrar el usuario. Inténtalo nuevamente.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
   }
+
   async ngOnInit() {
-    const storage = await this.storage.create();
-    const usuario = await this.storage.get('usuario');
-    const ingresado = await this.storage.get('ingresado');
+    await this.storage.create();
   }
 }
