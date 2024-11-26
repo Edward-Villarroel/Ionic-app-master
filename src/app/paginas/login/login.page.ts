@@ -7,6 +7,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MapService } from 'src/app/services/map.service';
 import { FirebaseLoginService } from 'src/app/services/firebase-login.service';
 import { ReloadServiceService } from 'src/app/services/reload-service.service';
+import { PopuptiendaComponent } from 'src/app/component/popuptienda/popuptienda.component';
+import { PopuppersonaComponent } from 'src/app/component/popuppersona/popuppersona.component';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +23,8 @@ export class LoginPage implements OnInit, AfterViewInit {
   usuario: string = '';
   contrasena: string = '';
   cerrar: string = '';
-  storedUsers: any[] = []; // Almacena los usuarios guardados localmente
+  storedUsers: any[] = [];
+  role: string | null = null;;
 
   constructor(
     private toastController: ToastController,
@@ -31,24 +35,28 @@ export class LoginPage implements OnInit, AfterViewInit {
     private geolocation: Geolocation,
     private mapService: MapService,
     private firebaseLoginService: FirebaseLoginService,
-    private reloadService: ReloadServiceService
+    private reloadService: ReloadServiceService,
+    private popoverController:PopoverController,
   ) {}
 
   async ngOnInit(): Promise<void> {
     await this.storage.create();
-
+    this.firebaseLoginService.getUserRole().subscribe((role) => {
+      this.role = role;
+    });
     this.storedUsers = await this.firebaseLoginService.getStoredUsers();
 
     this.firebaseLoginService.checkAuthState().subscribe((user: any) => {
       this.isLoggedIn = !!user;
     });
-
+    
     this.mapService.initializeMap('map', 51.505, -0.09);
     this.mapService.loadMarkers();
     this.mapService.getCurrentLocation();
   }
 
   async ngAfterViewInit(): Promise<void> {}
+
 
   async mensajeExito() {
     const toast = await this.toastController.create({
@@ -57,7 +65,6 @@ export class LoginPage implements OnInit, AfterViewInit {
     });
     toast.present();
   }
-
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Alerta',
@@ -67,7 +74,34 @@ export class LoginPage implements OnInit, AfterViewInit {
     });
     await alert.present();
   }
-
+  async showFavorites() {
+    if (this.role === 'persona') {
+      console.log('Mostrar favoritos para persona');
+      const popover = await this.popoverController.create({
+        component: PopuppersonaComponent, 
+        translucent: true
+      });
+      await popover.present();
+    } else if (this.role === 'tienda') {
+      console.log('Mostrar favoritos para tienda');
+      const popover = await this.popoverController.create({
+        component: PopuptiendaComponent, 
+        translucent: true
+      });
+      await popover.present();
+    }
+    else {
+      console.log('Rol no reconocido o no asignado:', this.role);
+    }
+  }
+  async showMarkersPopover(event: any) {
+    const popover = await this.popoverController.create({
+      component: PopuptiendaComponent,
+      event: event,
+      translucent: true
+    });
+    await popover.present();
+  }
   ingresar() {
     this.router.navigate(['/home']);
   }
@@ -88,9 +122,19 @@ export class LoginPage implements OnInit, AfterViewInit {
     this.mapService.addMarker(lat, lng, titulo, horario);
   }
 
-  irPerfil() {
-    this.router.navigate(['/perfil']);
+  async irPerfil() {
+    const isLoggedIn = await this.firebaseLoginService.isLoggedIn();
+    const storedUsers = await this.storage.get('users');
+  
+    if (isLoggedIn) {
+      this.router.navigate(['/perfil']);
+    } else if (storedUsers && storedUsers.length > 0) {
+      this.router.navigate(['/lista-perfil']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
+  
 
   irFormulario() {
     this.router.navigate(['/formulario']);

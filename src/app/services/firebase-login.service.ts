@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { BehaviorSubject, map, Observable, of, switchMap } from 'rxjs';
 import { User } from '../models/user';
+import { Marker } from '../models/marker';
 
 @Injectable({
   providedIn: 'root',
@@ -30,13 +31,31 @@ export class FirebaseLoginService {
     await this.storage.create();
   }
 
-  checkAuthState(): Observable<any> {
+  checkAuthState(): Observable<User | null> {
     return this.afAuth.authState.pipe(
-      map((user) => user)
+      switchMap((firebaseUser) => {
+        if (firebaseUser) {
+          return this.firestore
+            .collection('users-store')
+            .doc<User>(firebaseUser.uid)
+            .valueChanges()
+            .pipe(
+              map((userData) => {
+                if (!userData) return null;
+  
+                return {
+                  ...userData,
+                  uid: firebaseUser.uid,
+                  email: firebaseUser.email || 'Sin email', 
+                };
+              })
+            );
+        } else {
+          return of(null);
+        }
+      })
     );
   }
-  
-
   async login(email: string, password: string): Promise<void> {
     try {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(
@@ -78,10 +97,9 @@ export class FirebaseLoginService {
     await this.storage.set(this.usersKey, updatedUsers);
     console.log('Usuarios actualizados:', updatedUsers);
   }
-  isLoggedIn(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      map((user) => !!user)
-    );
+  async isLoggedIn(): Promise<boolean> {
+    const user = await this.afAuth.currentUser;
+    return !!user;
   }
 
   hasRole(requiredRole: string): boolean {
@@ -110,6 +128,7 @@ export class FirebaseLoginService {
         email: userCredential.user?.email!,
         role: role,
         rut: rut,
+        markers:[],
       };
 
       await this.firestore

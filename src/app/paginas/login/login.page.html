@@ -18,10 +18,11 @@
           <ion-label>Formulario</ion-label>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngIf="isLoggedIn" (click)="showFavorites()">
           <ion-icon slot="start" name="star"></ion-icon>
           <ion-label>Favoritos</ion-label>
         </ion-item>
+        
       </ion-list>
     </ion-content>
   </ion-menu>

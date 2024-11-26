@@ -5,6 +5,9 @@ import { Marker } from 'src/app/models/marker';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { GeolocationService } from 'src/app/services/geolocation.service';
 import { FirebaseLoginService } from 'src/app/services/firebase-login.service';
+import { Storage } from '@ionic/storage-angular';
+import { arrayUnion, doc, FieldValue, updateDoc } from 'firebase/firestore';  // Importar FieldValue correctamente
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +21,19 @@ export class MapService {
   private minDistance = 10;
   private geolocationMarker!: L.Marker;
   private positionSubscription!: Subscription;
+  private currentUser: any;
 
   constructor(
     private firestore: AngularFirestore,
     private geolocationService: GeolocationService,
-    private firebaseLoginService: FirebaseLoginService
-  ) {}
-  
+    private firebaseLoginService: FirebaseLoginService,
+    private storage: Storage,
 
-  initializeMap(containerId: string, lat: number, lng: number, zoom: number = 13): void {
+  ) {this.firebaseLoginService.checkAuthState().subscribe((user) => {
+    this.currentUser = user;
+  });}
+
+  async initializeMap(containerId: string, lat: number, lng: number, zoom: number = 13): Promise<void> {
     this.map = L.map(containerId).setView([lat, lng], zoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -36,14 +43,15 @@ export class MapService {
 
     this.mapSubject.next(this.map);
 
-    this.loadMarkers();
-    this.checkUserRole();
+    await this.loadMarkers();
+    await this.checkUserRole();
     this.addMapClickListener();
   }
 
-  private checkUserRole(): void {
+  public checkUserRole(): void {
     this.firebaseLoginService.getUserRole().subscribe((role) => {
       this.isTienda = role === 'tienda';
+      console.log('Rol del usuario:', role, 'Es tienda:', this.isTienda);
     });
   }
   
@@ -53,13 +61,13 @@ export class MapService {
       return distance < minDistance;
     });
   }
+
   private addMapClickListener(): void {
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       if (!this.isTienda) {
         alert('No tienes permiso para agregar marcadores.');
         return;
       }
-      
 
       const { lat, lng } = e.latlng;
 
@@ -68,7 +76,6 @@ export class MapService {
         return;
       }
 
-
       const titulo = prompt('Ingrese el título del marcador:') ?? 'Sin título';
       const horario = prompt('Ingrese horarios ordinarios de la tienda') ?? 'Sin horario';
 
@@ -76,21 +83,102 @@ export class MapService {
     });
   }
 
-  updateMarkerPosition(lat: number, lng: number): void {
-    if (!this.marker) {
-      this.marker = L.marker([lat, lng]).addTo(this.map);
-    } else {
-      this.marker.setLatLng([lat, lng]);
-    }
-    this.map.setView([lat, lng], this.map.getZoom());
+  async addMarker(lat: number, lng: number, titulo: string, horario: string): Promise<void> {
+    const marker: Marker = { lat, lng, titulo, horario };
+
+    L.marker([lat, lng])
+      .addTo(this.map)
+      .bindPopup(`<strong>${titulo}</strong><br>${horario}`)
+      .openPopup();
+
+    await this.saveMarkerToFirebase(marker);
   }
 
+  private async saveMarkerToFirebase(marker: Marker): Promise<void> {
+    if (!this.currentUser) {
+      console.error('No hay usuario autenticado al intentar guardar el marcador');
+      return;
+    }
+  
+    try {
+      const userRef = doc(this.firestore.firestore, 'users-store', this.currentUser.uid);
+  
+      await updateDoc(userRef, {
+        markers: arrayUnion(marker),
+      });
+  
+      console.log('Marcador guardado en el documento del usuario:', this.currentUser.uid);
 
+      const markerDocRef = this.firestore.collection('markers').doc();
+      await markerDocRef.set({
+        ...marker,
+        userId: this.currentUser.uid,
+        timestamp: new Date().toISOString(),
+      });
+  
+      console.log('Marcador guardado en la colección "markers"');
+    } catch (error) {
+      console.error('Error al guardar el marcador:', error);
+    }
+  }
+  
+  public centerMapOnMarker(marker: Marker): void {
+    if (!this.map) {
+      console.error('El mapa no está inicializado.');
+      return;
+    }
+    this.map.setView([marker.lat, marker.lng], 13);
+
+    const leafletMarker = L.marker([marker.lat, marker.lng]).addTo(this.map);
+
+    leafletMarker.bindPopup(`<strong>${marker.titulo}</strong><br>${marker.horario}`).openPopup();
+  }
+  
+
+  public async loadMarkers(): Promise<void> {
+    try {
+      const markersSnapshot = await this.firestore
+        .collection('markers')
+        .get()
+        .toPromise();
+  
+      if (markersSnapshot?.empty) {
+        console.log('No se encontraron marcadores en la colección "markers".');
+        return;
+      }
+  
+      markersSnapshot?.forEach((doc) => {
+        const marker = doc.data() as Marker;
+        const leafletMarker = L.marker([marker.lat, marker.lng])
+          .addTo(this.map)
+          .bindPopup(`<strong>${marker.titulo}</strong><br>${marker.horario}`);
+        leafletMarker.on('click', () => {
+          this.onMarkerClick(marker);
+        });
+      });
+  
+      console.log('Marcadores cargados desde la colección "markers".');
+    } catch (error) {
+      console.error('Error al cargar marcadores desde la colección "markers":', error);
+    }
+  }
+
+  private onMarkerClick(marker: Marker): void {
+    if (this.currentUser?.role === 'persona') {
+      const shouldSave = confirm('¿Quieres guardar este marcador en tu perfil?');
+  
+      if (shouldSave) {
+        this.saveMarkerToFirebase(marker);
+      }
+    } else {
+      alert('Solo los usuarios con rol "persona" pueden guardar marcadores.');
+    }
+  }
+  
   public getCurrentLocation(): void {
     this.positionSubscription = this.geolocationService.getCurrentPosition().subscribe(
       (position) => {
         const { latitude, longitude } = position.coords;
-    
 
         if (!this.geolocationMarker) {
           this.geolocationMarker = L.marker([latitude, longitude], {
@@ -104,10 +192,8 @@ export class MapService {
             .bindPopup('Estás aquí')
             .openPopup();
         } else {
-
           this.geolocationMarker.setLatLng([latitude, longitude]);
         }
-    
 
         this.map.setView([latitude, longitude], 13);
       },
@@ -115,37 +201,6 @@ export class MapService {
         console.error('Error obteniendo la ubicación:', error);
       }
     );
-  }
-
-  addMarker(lat: number, lng: number, titulo: string, horario: string): void {
-    L.marker([lat, lng])
-      .addTo(this.map)
-      .bindPopup(`<strong>${titulo}</strong><br>${horario}`)
-      .openPopup();
-
-    this.saveMarkerToFirebase({ lat, lng, titulo, horario });
-  }
-
-
-  public loadMarkers(): void {
-    this.firestore
-      .collection('markers')
-      .get()
-      .subscribe((snapshot) => {
-        this.markers = snapshot.docs.map((doc) => doc.data() as Marker);
-        this.markers.forEach((marker) => {
-          L.marker([marker.lat, marker.lng])
-            .addTo(this.map)
-            .bindPopup(`<strong>${marker.titulo}</strong><br>${marker.horario}`);
-        });
-      });
-  }
-
-  private saveMarkerToFirebase(marker: Marker): void {
-    this.firestore.collection('markers').add(marker).then(() => {
-      console.log('Marcador guardado con éxito');
-      this.markers.push(marker); 
-    });
   }
 
   private calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -163,4 +218,29 @@ export class MapService {
   private degToRad(deg: number): number {
     return deg * (Math.PI / 180);
   }
+  public async getUserMarkers(): Promise<Marker[]> {
+    if (!this.currentUser) {
+      console.error('No hay usuario autenticado');
+      return [];
+    }
+  
+    try {
+      const markersSnapshot = await this.firestore
+        .collection('markers', (ref) => ref.where('userId', '==', this.currentUser.uid))
+        .get()
+        .toPromise();
+  
+      const markers: Marker[] = [];
+      markersSnapshot?.forEach((doc) => {
+        const marker = doc.data() as Marker;
+        markers.push(marker);
+      });
+  
+      return markers;
+    } catch (error) {
+      console.error('Error al obtener los marcadores del usuario:', error);
+      return [];
+    }
+  }
+  
 }

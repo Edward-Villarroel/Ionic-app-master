@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { loggedGuard } from './auth/logged.guard';
 
 const routes: Routes = [
   {
@@ -44,7 +43,6 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./paginas/perfil/perfil.module').then( m => m.PerfilPageModule),
-    canActivate:[loggedGuard]
   },
   {
     path: 'formulario',
@@ -57,6 +55,10 @@ const routes: Routes = [
   {
     path: 'cambiar-usuario',
     loadChildren: () => import('./paginas/cambiar-usuario/cambiar-usuario.module').then( m => m.CambiarUsuarioPageModule)
+  },
+  {
+    path: 'lista-perfil',
+    loadChildren: () => import('./paginas/lista-perfil/lista-perfil.module').then( m => m.ListaPerfilPageModule)
   },
 
 ];

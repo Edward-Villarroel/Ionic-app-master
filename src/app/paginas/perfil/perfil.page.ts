@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Storage } from '@capacitor/storage';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-perfil',
@@ -10,7 +9,7 @@ import { Storage } from '@capacitor/storage';
 export class PerfilPage implements OnInit {
   profileImage: string | null = null;
 
-  constructor() { }
+  constructor(private photoService: PhotoService) { }
 
   ngOnInit() {
     console.log('Cargando imagen de perfil...');
@@ -25,14 +24,16 @@ export class PerfilPage implements OnInit {
         text: 'Tomar una foto',
         icon: 'camera',
         handler: async () => {
-          await this.tomarFoto(CameraSource.Camera);
+          await this.photoService.addNewToGallery();
+          this.loadProfileImage(); 
         }
       },
       {
         text: 'Seleccionar desde la galería',
         icon: 'image',
         handler: async () => {
-          await this.tomarFoto(CameraSource.Photos);
+          await this.photoService.addNewToGallery(); 
+          this.loadProfileImage(); 
         }
       },
       {
@@ -44,45 +45,13 @@ export class PerfilPage implements OnInit {
     await actionSheet.present();
   }
 
-  async tomarFoto(source: CameraSource) {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.Uri,
-        source: source
-      });
-
-      const imageUrl = image.webPath;
-
-      if (imageUrl) {
-        this.profileImage = imageUrl; 
-        await this.saveProfileImage(imageUrl);
-      }
-    } catch (error) {
-      console.error('Error al tomar o seleccionar la foto:', error);
-    }
-  }
-
-  async saveProfileImage(imageUrl: string) {
-    try {
-      await Storage.set({
-        key: 'profileImage',
-        value: imageUrl
-      });
-    } catch (error) {
-      console.error('Error al guardar la imagen:', error);
-    }
-  }
-
   async loadProfileImage() {
-    try {
-      const { value } = await Storage.get({ key: 'profileImage' });
-      console.log('Valor cargado de Storage:', value); 
-      this.profileImage = value ? value : null; 
-      console.log('profileImage:', this.profileImage); 
-    } catch (error) {
-      console.error('Error al cargar la imagen:', error);
+    await this.photoService.loadSaved();
+
+    if (this.photoService.photos && this.photoService.photos.length > 0) {
+      this.profileImage = this.photoService.photos[0].webviewPath || null;
+    } else {
+      this.profileImage = null;
     }
   }
 }

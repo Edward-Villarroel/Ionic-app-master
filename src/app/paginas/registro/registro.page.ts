@@ -33,7 +33,6 @@ export class RegistroPage implements OnInit {
       ]),
       rut: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]+-[0-9kK]{1}$'),
       ]),
     });
   }
