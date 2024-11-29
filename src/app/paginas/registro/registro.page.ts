@@ -31,9 +31,7 @@ export class RegistroPage implements OnInit {
         Validators.required,
         Validators.minLength(6),
       ]),
-      rut: new FormControl('', [
-        Validators.required,
-      ]),
+      rut: new FormControl('', [Validators.required]),
     });
   }
 
@@ -75,7 +73,8 @@ export class RegistroPage implements OnInit {
       console.error('Error al registrar usuario:', error);
       const alert = await this.alertController.create({
         header: 'Error',
-        message: 'Ocurrió un error al registrar el usuario. Inténtalo nuevamente.',
+        message:
+          'Ocurrió un error al registrar el usuario. Inténtalo nuevamente.',
         buttons: ['OK'],
       });
       await alert.present();

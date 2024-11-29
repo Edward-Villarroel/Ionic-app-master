@@ -8,26 +8,16 @@ import { PhotoService } from 'src/app/services/photo.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
-
 @NgModule({
-  declarations: [
-    LoginPage 
-  ],
+  declarations: [LoginPage],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     IonicStorageModule.forRoot(),
-    RouterModule.forChild([{ path: '', component: LoginPage }]) ,
-
+    RouterModule.forChild([{ path: '', component: LoginPage }]),
   ],
-  providers: [
-    PhotoService,
-    Geolocation,
-    ToastController,
-    AlertController,
-  ],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA],
-
+  providers: [PhotoService, Geolocation, ToastController, AlertController],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LoginPageModule {}

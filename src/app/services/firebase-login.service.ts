@@ -11,7 +11,7 @@ import { Marker } from '../models/marker';
   providedIn: 'root',
 })
 export class FirebaseLoginService {
-  private usersKey = 'users'; 
+  private usersKey = 'users';
   private authState = new BehaviorSubject<boolean>(false);
   authState$ = this.authState.asObservable();
 
@@ -42,11 +42,11 @@ export class FirebaseLoginService {
             .pipe(
               map((userData) => {
                 if (!userData) return null;
-  
+
                 return {
                   ...userData,
                   uid: firebaseUser.uid,
-                  email: firebaseUser.email || 'Sin email', 
+                  email: firebaseUser.email || 'Sin email',
                 };
               })
             );
@@ -117,7 +117,12 @@ export class FirebaseLoginService {
       console.error('Error al cerrar sesión:', error);
     }
   }
-  async createUser(email: string, password: string, role: string, rut: number): Promise<void> {
+  async createUser(
+    email: string,
+    password: string,
+    role: string,
+    rut: number
+  ): Promise<void> {
     try {
       const userCredential = await this.afAuth.createUserWithEmailAndPassword(
         email,
@@ -128,13 +133,10 @@ export class FirebaseLoginService {
         email: userCredential.user?.email!,
         role: role,
         rut: rut,
-        markers:[],
+        markers: [],
       };
 
-      await this.firestore
-        .collection('users-store')
-        .doc(user.uid)
-        .set(user);
+      await this.firestore.collection('users-store').doc(user.uid).set(user);
       console.log('Usuario creado y guardado en Firestore:', user);
     } catch (error) {
       console.error('Error al registrar usuario:', error);

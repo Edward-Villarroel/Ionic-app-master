@@ -36,8 +36,6 @@
   margin: 0 auto;
 }
 
-
-
 /* Responsividad */
 @media (max-width: 768px) {
   #parrafos {
@@ -56,19 +54,16 @@
   }
 }
 
-#user{
- 
+#user {
   display: block;
-  width:10%;
+  width: 10%;
   margin: auto;
-
 }
 
-#toolbar{
+#toolbar {
   background-color: #ff9900;
-
 }
-#ion-content{
-  position:absolute;
+#ion-content {
+  position: absolute;
   text-align: center;
 }

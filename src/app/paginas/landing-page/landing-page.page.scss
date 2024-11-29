@@ -1,40 +1,34 @@
+#user {
+  display: block;
+  width: 10%;
+  margin: auto;
+}
 
-  #user{
-   
-    display: block;
-    width:10%;
-    margin: auto;
-  
-  }
-  
-  #parrafos{
-    text-align: center;
-    font-size: x-large;
-  }
-  #toolbar{
-    background-color: #ff9100;
-  }
-  #ingre{
-    display: flex;
-    justify-content: center;
-    margin-top: 50%; 
-  }
-  .title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40vh; 
-    text-align: center;
-  }
-  
-  .intro-text {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #ff9100; 
-  }
+#parrafos {
+  text-align: center;
+  font-size: x-large;
+}
+#toolbar {
+  background-color: #ff9100;
+}
+#ingre {
+  display: flex;
+  justify-content: center;
+  margin-top: 50%;
+}
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  text-align: center;
+}
 
-
-
+.intro-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff9100;
+}
 
 //Extras para mejorar estilo
 

@@ -27,8 +27,7 @@ export class HomePage implements OnInit {
     public alerta: AlertController,
     public fb: FormBuilder,
     private loginFirebase: FirebaseLoginService,
-    private reload:ReloadServiceService,
-
+    private reload: ReloadServiceService
   ) {
     this.formularioLogin = this.fb.group({
       nombre: new FormControl('', Validators.required),
@@ -46,12 +45,11 @@ export class HomePage implements OnInit {
     await this.loginFirebase.login(nombre, password);
     this.formularioLogin.reset;
     this.route.navigate(['/login']);
-  
   }
 
   async ngOnInit() {
     this.loginFirebase.authState$.subscribe((state) => {
       this.isLoggedIn = state;
     });
-  }  }
-
+  }
+}

@@ -5,7 +5,7 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl
+  AbstractControl,
 } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
@@ -46,7 +46,7 @@ export class RegistroTiendaPage implements OnInit {
       if (isNaN(value) || value < minValue) {
         return { minValue: true };
       }
-      return null; 
+      return null;
     };
   }
 
@@ -99,7 +99,8 @@ export class RegistroTiendaPage implements OnInit {
       console.error('Error al registrar tienda:', error);
       const alert = await this.alertController.create({
         header: 'Error',
-        message: 'Ocurrió un error al registrar la tienda. Inténtalo nuevamente.',
+        message:
+          'Ocurrió un error al registrar la tienda. Inténtalo nuevamente.',
         buttons: ['OK'],
       });
       await alert.present();
