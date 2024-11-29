@@ -12,17 +12,19 @@ import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { CommonModule } from '@angular/common';
-import { AuthService } from 'src/app/services/auth/auth.service'; 
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { PopupFormulario } from './component/popupformulario/popupformulario.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { HttpClientModule } from '@angular/common/http';
+import { CajasService } from './services/cajas.service';
+import {
+  AngularFirestore,
+  AngularFirestoreModule,
+} from '@angular/fire/compat/firestore';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -34,16 +36,17 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
     CommonModule,
     PopupFormulario,
     ReactiveFormsModule,
-
+    HttpClientModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Geolocation,
     Diagnostic,
     provideHttpClient(),
-    AuthService 
+    AuthService,
+    CajasService,
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

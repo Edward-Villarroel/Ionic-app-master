@@ -10,6 +10,7 @@ import { ReloadServiceService } from 'src/app/services/reload-service.service';
 import { PopuptiendaComponent } from 'src/app/component/popuptienda/popuptienda.component';
 import { PopuppersonaComponent } from 'src/app/component/popuppersona/popuppersona.component';
 import { PopoverController } from '@ionic/angular';
+import { CajasService } from 'src/app/services/cajas.service';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,8 @@ export class LoginPage implements OnInit, AfterViewInit {
     private mapService: MapService,
     private firebaseLoginService: FirebaseLoginService,
     private reloadService: ReloadServiceService,
-    private popoverController:PopoverController,
+    private popoverController: PopoverController,
+    private cajasService: CajasService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -56,7 +58,6 @@ export class LoginPage implements OnInit, AfterViewInit {
   }
 
   async ngAfterViewInit(): Promise<void> {}
-
 
   async mensajeExito() {
     const toast = await this.toastController.create({
@@ -148,5 +149,34 @@ export class LoginPage implements OnInit, AfterViewInit {
   async actualizarMensaje() {
     const ingresado = this.storedUsers.length > 0;
     this.cerrar = ingresado ? 'Cerrar sesión' : '';
+  }
+
+  mostrarCajasVecinas(): void {
+    this.cajasService.getCajasVecinas().subscribe(
+      (cajas) => {
+        if (!Array.isArray(cajas)) {
+          console.error('Los datos obtenidos no son validos:', cajas);
+          return;
+        }
+
+        cajas.forEach((caja: any) => {
+          const latitud = parseFloat(caja.latitud);
+          const longitud = parseFloat(caja.longitud);
+          const direccion = caja.direccion ?? 'Sin dirección';
+          const horario =
+            caja.horario ??
+            'Lunes a Viernes: 08:00 - 20:00 <br> Sábados: 09:00 - 18:00';
+
+          if (!isNaN(latitud) && !isNaN(longitud)) {
+            this.mapService.addMarker(latitud, longitud, direccion, horario);
+          } else {
+            console.warn('Latitud o longitud no válidas:', caja);
+          }
+        });
+      },
+      (error) => {
+        console.error('Error al obtener las cajas vecinas:', error);
+      }
+    );
   }
 }

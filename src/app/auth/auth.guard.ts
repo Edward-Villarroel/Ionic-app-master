@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router,
+} from '@angular/router';
 import { FirebaseLoginService } from '../services/firebase-login.service';
 import { AlertController } from '@ionic/angular';
 import { catchError, from, map, Observable } from 'rxjs';

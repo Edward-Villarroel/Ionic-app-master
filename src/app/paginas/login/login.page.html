@@ -1,4 +1,4 @@
-<ion-app>
+<ion-app></ion-app>
   <ion-menu side="start" menuId="first" contentId="main-content">
     <ion-header>
       <ion-toolbar color="warning">
@@ -22,7 +22,12 @@
           <ion-icon slot="start" name="star"></ion-icon>
           <ion-label>Favoritos</ion-label>
         </ion-item>
-        
+
+        <ion-item button (click)="mostrarCajasVecinas()">
+          <ion-icon slot="start" name="location"></ion-icon>
+          <ion-label>Detectar Todas Las Cajas</ion-label>
+        </ion-item>
+
       </ion-list>
     </ion-content>
   </ion-menu>
