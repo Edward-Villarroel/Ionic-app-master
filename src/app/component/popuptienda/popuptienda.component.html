@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Marcadores</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closePopover()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let marker of markers">
+      <ion-label>
+        <h2>{{ marker.titulo }}</h2>
+        <p>{{ marker.horario }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="closePopover()">Cerrar</ion-button>
+</ion-content>
