@@ -26,15 +26,20 @@ export class RegistroPage implements OnInit {
     private firebaseLoginService: FirebaseLoginService
   ) {
     this.formularioRegistro = this.fb.group({
-      nombre: new FormControl('', Validators.required),
+      correo: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+\.com$/), 
+      ]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
       ]),
-      rut: new FormControl('', [
-        Validators.required,
-      ]),
+      rut: new FormControl('', Validators.required),
     });
+  }
+
+  get correo() {
+    return this.formularioRegistro.get('correo');
   }
 
   async registrarse() {
@@ -49,8 +54,9 @@ export class RegistroPage implements OnInit {
       await alert.present();
       return;
     }
+
     const nuevoUsuario = {
-      nombre: formValue.nombre,
+      correo: formValue.correo,
       password: formValue.password,
       rut: formValue.rut,
       role: 'persona',
@@ -58,7 +64,7 @@ export class RegistroPage implements OnInit {
 
     try {
       await this.firebaseLoginService.createUser(
-        formValue.nombre,
+        formValue.correo,
         formValue.password,
         nuevoUsuario.role,
         nuevoUsuario.rut
