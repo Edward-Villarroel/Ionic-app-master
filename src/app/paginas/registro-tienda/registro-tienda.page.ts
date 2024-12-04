@@ -27,7 +27,7 @@ export class RegistroTiendaPage implements OnInit {
     private firebaseLoginService: FirebaseLoginService
   ) {
     this.formularioRegistro = this.fb.group({
-      nombre: new FormControl('', Validators.required),
+      correo: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
@@ -40,6 +40,7 @@ export class RegistroTiendaPage implements OnInit {
       ]),
     });
   }
+
   private rutMinValueValidator(minValue: number) {
     return (control: AbstractControl) => {
       const value = Number(control.value);
@@ -74,7 +75,7 @@ export class RegistroTiendaPage implements OnInit {
     }
 
     const usuario = {
-      nombre: f.nombre,
+      correo: f.correo,
       password: f.password,
       rut: f.rut_empresa,
       role: 'tienda',
@@ -82,7 +83,7 @@ export class RegistroTiendaPage implements OnInit {
 
     try {
       await this.firebaseLoginService.createUser(
-        usuario.nombre,
+        usuario.correo,
         usuario.password,
         usuario.role,
         usuario.rut
@@ -90,7 +91,7 @@ export class RegistroTiendaPage implements OnInit {
 
       const alert = await this.alertController.create({
         header: 'Éxito',
-        message: 'Tienda registrada exitosamente.',
+        message: 'Tienda registrada correctamente.',
         buttons: ['OK'],
       });
       await alert.present();

@@ -108,7 +108,6 @@ export class MapService {
   ): Promise<void> {
     const marker: Marker = { lat, lng, titulo, horario };
 
-    // Usa el ícono personalizado
     L.marker([lat, lng], { icon: this.cajaVecinaIcon })
       .addTo(this.map)
       .bindPopup(`<strong>${titulo}</strong><br>${horario}`)
@@ -147,13 +146,11 @@ export class MapService {
         userId: this.currentUser.uid,
         timestamp: new Date().toISOString(),
       });
-
       console.log('Marcador guardado en la colección "markers"');
     } catch (error) {
       console.error('Error al guardar el marcador:', error);
     }
   }
-
   public centerMapOnMarker(marker: Marker): void {
     if (!this.map) {
       console.error('El mapa no está inicializado.');
@@ -167,14 +164,20 @@ export class MapService {
       .bindPopup(`<strong>${marker.titulo}</strong><br>${marker.horario}`)
       .openPopup();
   }
-
+  public centerMapOnUser(): void {
+    if (this.geolocationMarker) {
+      const latLng = this.geolocationMarker.getLatLng();
+      this.map.setView(latLng, 13);
+    } else {
+      console.log('El marcador de geolocalización no está disponible.');
+    }
+  }
   public async loadMarkers(): Promise<void> {
     try {
       const markersSnapshot = await this.firestore
         .collection('markers')
         .get()
         .toPromise();
-
       if (markersSnapshot?.empty) {
         console.log('No se encontraron marcadores en la colección "markers".');
         return;
@@ -238,8 +241,6 @@ export class MapService {
           } else {
             this.geolocationMarker.setLatLng([latitude, longitude]);
           }
-
-          this.map.setView([latitude, longitude], 13);
         },
         (error) => {
           console.error('Error obteniendo la ubicación:', error);

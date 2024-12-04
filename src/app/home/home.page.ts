@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController, AlertController } from '@ionic/angular';
 import {
@@ -16,11 +16,12 @@ import { ReloadServiceService } from '../services/reload-service.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  nombre: string = '';
+  correo: string = '';
   contrasena: string = '';
   rut: string = '';
   formularioLogin: FormGroup;
   isLoggedIn: boolean | undefined;
+
   constructor(
     public mensaje: ToastController,
     private route: Router,
@@ -30,21 +31,35 @@ export class HomePage implements OnInit {
     private reload: ReloadServiceService
   ) {
     this.formularioLogin = this.fb.group({
-      nombre: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
+      correo: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
     });
   }
 
   async ingresar() {
-    const { nombre, password } = this.formularioLogin.value;
+    const { correo, password } = this.formularioLogin.value;
 
-    if (!nombre.trim() || !password.trim()) {
+    if (!correo.trim() || !password.trim()) {
       alert('Los campos no pueden estar vacíos');
       return;
     }
-    await this.loginFirebase.login(nombre, password);
-    this.formularioLogin.reset;
-    this.route.navigate(['/login']);
+
+    try {
+      await this.loginFirebase.login(correo, password);
+      this.formularioLogin.reset();
+      this.route.navigate(['/login']);
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      const alert = await this.alerta.create({
+        header: 'Error',
+        message: 'Correo o contraseña incorrectos.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
   }
 
   async ngOnInit() {

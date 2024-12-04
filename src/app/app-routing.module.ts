@@ -58,13 +58,6 @@ const routes: Routes = [
       import('./paginas/perfil/perfil.module').then((m) => m.PerfilPageModule),
   },
   {
-    path: 'formulario',
-    loadChildren: () =>
-      import('./paginas/formulario/formulario.module').then(
-        (m) => m.FormularioPageModule
-      ),
-  },
-  {
     path: 'cambiar-contrasena',
     loadChildren: () =>
       import('./paginas/cambiar-contrasena/cambiar-contrasena.module').then(

@@ -75,6 +75,9 @@ export class LoginPage implements OnInit, AfterViewInit {
     });
     await alert.present();
   }
+  async centrarMapa() {
+    this.mapService.centerMapOnUser();
+  }
   async showFavorites() {
     if (this.role === 'persona') {
       console.log('Mostrar favoritos para persona');
@@ -109,9 +112,6 @@ export class LoginPage implements OnInit, AfterViewInit {
     await this.firebaseLoginService.logout();
     this.router.navigate(['/landing-page']);
     this.reloadService.reloadRoute();
-  }
-  centrarMapa(): void {
-    this.mapService.getCurrentLocation();
   }
 
   agregarMarcador(): void {

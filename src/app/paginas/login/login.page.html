@@ -13,11 +13,6 @@
           <ion-label>Perfil</ion-label>
         </ion-item>
 
-        <ion-item button (click)="irFormulario()">
-          <ion-icon slot="start" name="document"></ion-icon>
-          <ion-label>Formulario</ion-label>
-        </ion-item>
-
         <ion-item *ngIf="isLoggedIn" (click)="showFavorites()">
           <ion-icon slot="start" name="star"></ion-icon>
           <ion-label>Favoritos</ion-label>
@@ -40,8 +35,11 @@
           <ion-menu-button auto-hide="false"></ion-menu-button>
         </ion-buttons>
         <img id="img" src="../../assets/icon/caja_vecina_logo.png" alt="caja_vecina_logo" />
-        <ion-button color="warning" id="button" (click)="ingresar()">
+        <ion-button color="warning" id="iniciarSesion" (click)="ingresar()">
           <p>iniciar sesión</p>
+        </ion-button>
+        <ion-button id="centrarBtn" color="warning" (click)="centrarMapa()">
+          <p>centrar mapa</p>
         </ion-button>
       </ion-toolbar>
     </ion-header>

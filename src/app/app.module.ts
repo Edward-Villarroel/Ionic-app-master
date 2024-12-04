@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { PopupFormulario } from './component/popupformulario/popupformulario.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CajasService } from './services/cajas.service';
@@ -34,7 +33,6 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
     AngularFireAuthModule,
     AngularFirestoreModule,
     CommonModule,
-    PopupFormulario,
     ReactiveFormsModule,
     HttpClientModule,
   ],

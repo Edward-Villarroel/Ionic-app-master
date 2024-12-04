@@ -35,7 +35,6 @@ export class PhotoService {
   private async savePicture(photo: Photo): Promise<UserPhoto> {
     const base64Data = await this.readAsBase64(photo);
     const fileName = Date.now() + '.jpeg';
-
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
