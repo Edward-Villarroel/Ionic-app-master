@@ -51,6 +51,20 @@ ion-button {
   max-width: 300px;
   font-weight: bold;
 }
+.save-marker-btn {
+  background-color: #ffc107;
+  border: none;
+  padding: 8px 12px;
+  color: white;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-marker-btn:hover {
+  background-color: #ffa000;
+}
+
 .ion-color-favorite {
   --ion-color-base: var(--ion-color-favorite);
   --ion-color-base-rgb: var(--ion-color-favorite-rgb);

@@ -25,8 +25,7 @@ export class LoginPage implements OnInit, AfterViewInit {
   contrasena: string = '';
   cerrar: string = '';
   storedUsers: any[] = [];
-  role: string | null = null;;
-
+  role: string | null = null;
   constructor(
     private toastController: ToastController,
     private router: Router,
@@ -47,7 +46,7 @@ export class LoginPage implements OnInit, AfterViewInit {
       this.role = role;
     });
     this.storedUsers = await this.firebaseLoginService.getStoredUsers();
-
+    
     this.firebaseLoginService.checkAuthState().subscribe((user: any) => {
       this.isLoggedIn = !!user;
     });
@@ -75,19 +74,20 @@ export class LoginPage implements OnInit, AfterViewInit {
     });
     await alert.present();
   }
-  async centrarMapa(){
-     this.mapService.centerMapOnUser();
+  async centrarMapa() {
+    this.mapService.centerMapOnUser();
+  }
+  async enableAddMarkerMode(){
+    this.mapService.enableAddMarkerMode();
   }
   async showFavorites() {
     if (this.role === 'persona') {
-      console.log('Mostrar favoritos para persona');
       const popover = await this.popoverController.create({
         component: PopuppersonaComponent, 
         translucent: true
       });
       await popover.present();
     } else if (this.role === 'tienda') {
-      console.log('Mostrar favoritos para tienda');
       const popover = await this.popoverController.create({
         component: PopuptiendaComponent, 
         translucent: true
@@ -113,15 +113,6 @@ export class LoginPage implements OnInit, AfterViewInit {
     await this.firebaseLoginService.logout();
     this.router.navigate(['/landing-page']);
     this.reloadService.reloadRoute();
-  }
-
-
-  agregarMarcador(): void {
-    const lat = 51.505;
-    const lng = -0.09;
-    const titulo = prompt('Ingrese el título del marcador:') ?? 'Sin título';
-    const horario = prompt('Ingrese una descripción del marcador:') ?? 'Sin descripción';
-    this.mapService.addMarker(lat, lng, titulo, horario);
   }
 
   async irPerfil() {

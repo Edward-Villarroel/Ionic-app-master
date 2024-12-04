@@ -50,7 +50,7 @@ export class PhotoService {
   private async readAsBase64(photo: Photo): Promise<string> {
     const response = await fetch(photo.webPath!);
     const blob = await response.blob();
-    return await this.convertBlobToBase64(blob) as string;
+    return (await this.convertBlobToBase64(blob)) as string;
   }
 
   private convertBlobToBase64(blob: Blob): Promise<string> {

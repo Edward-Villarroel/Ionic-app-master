@@ -28,7 +28,7 @@ export class RegistroPage implements OnInit {
     this.formularioRegistro = this.fb.group({
       correo: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+\.com$/), 
+
       ]),
       password: new FormControl('', [
         Validators.required,

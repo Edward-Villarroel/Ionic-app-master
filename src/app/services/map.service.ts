@@ -57,7 +57,6 @@ export class MapService {
 
     await this.loadMarkers();
     await this.checkUserRole();
-    this.addMapClickListener();
   }
 
   public checkUserRole(): void {
@@ -78,27 +77,27 @@ export class MapService {
     });
   }
 
-  private addMapClickListener(): void {
-    this.map.on('click', (e: L.LeafletMouseEvent) => {
-      if (!this.isTienda) {
-        alert('No tienes permiso para agregar marcadores.');
-        return;
-      }
-
+  public enableAddMarkerMode(): void {
+    alert('Haga clic en el mapa para agregar un marcador.');
+  
+    const clickHandler = (e: L.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
-
-      if (this.isMarkerNearby(lat, lng, this.minDistance)) {
-        alert('Ya existe un marcador cerca de esta ubicación.');
-        return;
-      }
-
+  
       const titulo = prompt('Ingrese el título del marcador:') ?? 'Sin título';
       const horario =
         prompt('Ingrese horarios ordinarios de la tienda') ?? 'Sin horario';
+  
+      this.addMarker(lat, lng, titulo, horario); 
+  
 
-      this.addMarker(lat, lng, titulo, horario);
-    });
+      this.map.off('click', clickHandler);
+      alert('Marcador agregado.');
+    };
+  
+
+    this.map.on('click', clickHandler);
   }
+  
 
   async addMarker(
     lat: number,
@@ -206,18 +205,70 @@ export class MapService {
   }
 
   private onMarkerClick(marker: Marker): void {
-    if (this.currentUser?.role === 'persona') {
-      const shouldSave = confirm(
-        '¿Quieres guardar este marcador en tu perfil?'
-      );
-
-      if (shouldSave) {
-        this.saveMarkerToFirebase(marker);
+    let popupContent = `
+      <div>
+        <h4>${marker.titulo}</h4>
+        <p>${marker.horario}</p>
+        ${this.currentUser?.role === 'persona' ? `
+          <button 
+            class="popup-save-marker-btn" 
+            style="
+              display: block; 
+              margin-top: 5px; 
+              padding: 10px 15px; 
+              background-color: #ffc107; 
+              border: none; 
+              color: white; 
+              font-size: 14px; 
+              border-radius: 5px; 
+              cursor: pointer;">
+            Guardar Marcador
+          </button>
+        ` : ''}
+      </div>`;
+  
+    const leafletMarker = L.marker([marker.lat, marker.lng], {
+      icon: this.cajaVecinaIcon,
+    }).addTo(this.map);
+  
+    leafletMarker.bindPopup(popupContent);
+  
+    leafletMarker.on('click', (event) => {
+      event.target.bindPopup(popupContent).openPopup();
+  
+      const saveButton = event.target._popup?.getElement()?.querySelector('.popup-save-marker-btn');
+      
+      if (saveButton) {
+        saveButton.addEventListener('click', () => {
+          this.saveMarkerToFirebase(marker); 
+        });
       }
-    } else {
-      alert('Solo los usuarios con rol "persona" pueden guardar marcadores.');
+    });
+  }
+  private async saveMarkerForUser(marker: Marker): Promise<void> {
+    if (!this.currentUser) {
+      console.error('No hay usuario autenticado al intentar guardar el marcador');
+      return;
+    }
+  
+    try {
+      const userRef = doc(
+        this.firestore.firestore,
+        'users-store',
+        this.currentUser.uid
+      );
+      await updateDoc(userRef, {
+        markers: arrayUnion(marker),
+      });
+  
+      console.log('Marcador guardado en el perfil del usuario.');
+    } catch (error) {
+      console.error('Error al guardar el marcador:', error);
     }
   }
+  
+  
+  
 
   public getCurrentLocation(): void {
     this.positionSubscription = this.geolocationService

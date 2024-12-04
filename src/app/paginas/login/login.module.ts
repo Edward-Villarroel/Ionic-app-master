@@ -8,11 +8,8 @@ import { PhotoService } from 'src/app/services/photo.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
-
 @NgModule({
-  declarations: [
-    LoginPage 
-  ],
+  declarations: [LoginPage],
   imports: [
     CommonModule,
     FormsModule,

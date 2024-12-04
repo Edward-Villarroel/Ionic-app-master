@@ -27,10 +27,7 @@ export class RegistroTiendaPage implements OnInit {
     private firebaseLoginService: FirebaseLoginService
   ) {
     this.formularioRegistro = this.fb.group({
-      correo: new FormControl('', [
-        Validators.required,
-        Validators.email,
-      ]),
+      correo: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
@@ -50,7 +47,7 @@ export class RegistroTiendaPage implements OnInit {
       if (isNaN(value) || value < minValue) {
         return { minValue: true };
       }
-      return null; 
+      return null;
     };
   }
 

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController, AlertController } from '@ionic/angular';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { FirebaseLoginService } from '../services/firebase-login.service';
 import { ReloadServiceService } from '../services/reload-service.service';
 
@@ -26,6 +31,7 @@ export class HomePage implements OnInit {
     private reload: ReloadServiceService
   ) {
     this.formularioLogin = this.fb.group({
+
       correo: new FormControl('', [
         Validators.required,
         Validators.email,  
@@ -49,6 +55,7 @@ export class HomePage implements OnInit {
       await this.loginFirebase.login(correo, password);
       this.formularioLogin.reset();  
       this.route.navigate(['/login']);  
+
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       const alert = await this.alerta.create({

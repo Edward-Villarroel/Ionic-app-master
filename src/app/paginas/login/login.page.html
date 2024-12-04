@@ -18,11 +18,6 @@
           <ion-label>Favoritos</ion-label>
         </ion-item>
 
-        <ion-item button (click)="mostrarCajasVecinas()">
-          <ion-icon slot="start" name="location"></ion-icon>
-          <ion-label>Detectar Todas Las Cajas</ion-label>
-        </ion-item>
-
       </ion-list>
     </ion-content>
   </ion-menu>
@@ -38,6 +33,8 @@
         <ion-button color="warning" id="iniciarSesion" (click)="ingresar()">
           <p>iniciar sesión</p>
         </ion-button>
+        <ion-button *ngIf="role === 'tienda'"(click)="enableAddMarkerMode()">Agregar Marcador</ion-button>
+
         <ion-button id="centrarBtn" color="warning" (click)="centrarMapa()">
           <p>centrar mapa</p>
         </ion-button>
